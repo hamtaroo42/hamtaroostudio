@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hamtaroo Studio | สตูดิโอถ่ายภาพมืออาชีพ</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Prompt & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Prompt', 'Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              black: '#09090b',
+              surface: '#121215',
+              border: '#27272a',
+              blue: '#38bdf8',      /* Sky Blue Accent */
+              blueHover: '#0ea5e9',
+              white: '#f8fafc',
+              muted: '#a1a1aa'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #09090b;
+      color: #f8fafc;
+      font-family: 'Prompt', 'Inter', sans-serif;
+    }
+    .active-nav {
+      color: #38bdf8 !important;
+      border-bottom: 2px solid #38bdf8;
+    }
+    .active-nav-mobile {
+      color: #38bdf8 !important;
+      background-color: rgba(56, 189, 248, 0.1);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-brand-blue selection:text-black">
+
+  <!-- Navbar -->
+  <header class="sticky top-0 z-40 bg-brand-surface/80 backdrop-blur-md border-b border-brand-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <!-- Brand Logo -->
+        <div class="flex items-center gap-3 cursor-pointer" onclick="navigateTo('home')">
+          <div class="w-10 h-10 rounded-lg bg-brand-blue/20 border border-brand-blue flex items-center justify-center text-brand-blue font-bold text-xl">
+            H
+          </div>
+          <div>
+            <span class="text-xl font-bold tracking-wider text-brand-white">HAMTAROO</span>
+            <span class="text-xs block text-brand-blue uppercase tracking-widest font-semibold">Studio</span>
+          </div>
+        </div>
+
+        <!-- Desktop Navigation Menu -->
+        <nav class="hidden md:flex items-center space-x-8">
+          <button onclick="navigateTo('home')" id="nav-home" class="nav-item py-2 text-sm font-medium transition-colors text-brand-muted hover:text-brand-white active-nav">หน้าแรก (Home)</button>
+          <button onclick="navigateTo('about')" id="nav-about" class="nav-item py-2 text-sm font-medium transition-colors text-brand-muted hover:text-brand-white">เกี่ยวกับเรา (About)</button>
+          <button onclick="navigateTo('gallery')" id="nav-gallery" class="nav-item py-2 text-sm font-medium transition-colors text-brand-muted hover:text-brand-white">ผลงาน (Gallery)</button>
+          <button onclick="navigateTo('contact')" id="nav-contact" class="nav-item py-2 text-sm font-medium transition-colors text-brand-muted hover:text-brand-white">ติดต่อเรา (Contact)</button>
+        </nav>
+
+        <!-- CTA Button -->
+        <div class="hidden md:block">
+          <button onclick="navigateTo('contact')" class="px-5 py-2.5 rounded-full bg-brand-blue text-black font-semibold text-sm hover:bg-brand-blueHover transition-all shadow-[0_0_20px_rgba(56,189,248,0.3)]">
+            จองคิวถ่ายภาพ
+          </button>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden flex items-center">
+          <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="text-brand-muted hover:text-brand-white focus:outline-none p-2">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="hidden md:hidden border-b border-brand-border bg-brand-surface px-4 pt-2 pb-6 space-y-2">
+      <button onclick="navigateTo('home')" id="m-nav-home" class="m-nav-item w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-brand-muted active-nav-mobile">หน้าแรก (Home)</button>
+      <button onclick="navigateTo('about')" id="m-nav-about" class="m-nav-item w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-brand-muted">เกี่ยวกับเรา (About)</button>
+      <button onclick="navigateTo('gallery')" id="m-nav-gallery" class="m-nav-item w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-brand-muted">ผลงาน (Gallery)</button>
+      <button onclick="navigateTo('contact')" id="m-nav-contact" class="m-nav-item w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-brand-muted">ติดต่อเรา (Contact)</button>
+    </div>
+  </header>
+
+  <!-- Main Dynamic SPA Content -->
+  <main class="flex-grow">
+    
+    <!-- PAGE: HOME -->
+    <section id="page-home" class="page-section">
+      <!-- Hero Section -->
+      <div class="relative py-20 lg:py-32 overflow-hidden border-b border-brand-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <span class="inline-block py-1 px-4 mb-4 rounded-full bg-brand-blue/10 border border-brand-blue/30 text-brand-blue text-xs uppercase tracking-widest font-semibold">
+            Visual Storytelling & Production
+          </span>
+          <h1 class="text-4xl sm:text-6xl font-bold tracking-tight text-brand-white max-w-4xl mx-auto leading-tight">
+            บันทึกทุกช่วงเวลาและความทรงจำ <br>
+            <span class="text-brand-blue">ผ่านมุมมองศิลปะและแสงเงา</span>
+          </h1>
+          <p class="mt-6 text-base sm:text-lg text-brand-muted max-w-2xl mx-auto font-light leading-relaxed">
+            สตูดิโอถ่ายภาพครบวงจร ออกแบบและจัดแสงสำหรับงาน Portrait, Fashion, Profile และ Commercial สร้างสรรค์ภาพถ่ายที่สะท้อนตัวตนของคุณอย่างโดดเด่น
+          </p>
+          <div class="mt-10 flex flex-wrap justify-center gap-4">
+            <button onclick="navigateTo('gallery')" class="px-8 py-3.5 rounded-full bg-brand-blue text-black font-semibold hover:bg-brand-blueHover transition-all shadow-[0_0_25px_rgba(56,189,248,0.35)]">
+              ชมผลงานภาพถ่าย
+            </button>
+            <button onclick="navigateTo('contact')" class="px-8 py-3.5 rounded-full border border-brand-border bg-brand-surface text-brand-white font-medium hover:border-brand-blue transition-colors">
+              ติดต่อสอบถามคิว
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Features Section (3 ไฮไลต์) -->
+      <div class="py-20 bg-brand-surface/40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center mb-16">
+            <h2 class="text-2xl sm:text-3xl font-bold text-brand-white">ทำไมต้องเลือก Hamtaroo Studio</h2>
+            <p class="text-brand-muted text-sm mt-2">มาตรฐานการทำงานระดับพรีเมียมในทุกกระบวนการ</p>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="p-8 rounded-2xl bg-brand-surface border border-brand-border hover:border-brand-blue/40 transition-all">
+              <div class="w-12 h-12 rounded-xl bg-brand-blue/10 border border-brand-blue/20 flex items-center justify-center text-brand-blue text-xl mb-6">
+                ✦
+              </div>
+              <h3 class="text-xl font-bold text-brand-white mb-3">Professional Lighting</h3>
+              <p class="text-brand-muted text-sm leading-relaxed">
+                อุปกรณ์จัดแสงและสตูดิโอระดับโปรดักชัน รองรับการสร้างมู้ดและโทนของภาพได้ตามสไตล์ที่ลูกค้าต้องการ
+              </p>
+            </div>
+            <div class="p-8 rounded-2xl bg-brand-surface border border-brand-border hover:border-brand-blue/40 transition-all">
+              <div class="w-12 h-12 rounded-xl bg-brand-blue/10 border border-brand-blue/20 flex items-center justify-center text-brand-blue text-xl mb-6">
+                ◈
+              </div>
+              <h3 class="text-xl font-bold text-brand-white mb-3">Creative Direction</h3>
+              <p class="text-brand-muted text-sm leading-relaxed">
+                ทีมงานช่วยดูแลเรื่อง Moodboard, การจัดวางท่าทาง (Posing) และองค์ประกอบภาพอย่างใกล้ชิด
+              </p>
+            </div>
+            <div class="p-8 rounded-2xl bg-brand-surface border border-brand-border hover:border-brand-blue/40 transition-all">
+              <div class="w-12 h-12 rounded-xl bg-brand-blue/10 border border-brand-blue/20 flex items-center justify-center text-brand-blue text-xl mb-6">
+                ★
+              </div>
+              <h3 class="text-xl font-bold text-brand-white mb-3">High-End Color Grading</h3>
+              <p class="text-brand-muted text-sm leading-relaxed">
+                กระบวนการรีทัชผิวและปรับแต่งโทนสีภาพละเอียดระดับพิกเซล มอบผลงานที่ประณีตและพร้อมใช้งานทันที
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE: ABOUT -->
+    <section id="page-about" class="page-section hidden py-16 sm:py-24">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto text-center mb-16">
+          <span class="text-brand-blue text-xs uppercase tracking-widest font-semibold">About Hamtaroo Studio</span>
+          <h2 class="text-3xl sm:text-4xl font-bold text-brand-white mt-2">พื้นที่สำหรับงานสร้างสรรค์ทางสายตา</h2>
+          <p class="text-brand-muted mt-4 text-base leading-relaxed">
+            Hamtaroo Studio ก่อตั้งขึ้นจากความหลงใหลในศิลปะการถ่ายทอดอารมณ์ผ่านภาพนิ่ง เราเชื่อว่าภาพถ่ายที่ดีไม่ใช่เพียงแค่ความคมชัด แต่คือการเก็บรักษาเรื่องราว ความมั่นใจ และบรรยากาศ ณ ห้วงเวลานั้นไว้อย่างทรงพลัง
+          </p>
+        </div>
+
+        <!-- Vision & Mission Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+          <div class="p-8 rounded-2xl bg-brand-surface border border-brand-border">
+            <h3 class="text-xl font-bold text-brand-blue mb-4">พันธกิจของเรา (Our Mission)</h3>
+            <p class="text-brand-muted text-sm leading-relaxed">
+              ส่งมอบผลงานภาพถ่ายที่เปี่ยมไปด้วยคุณภาพและเอกลักษณ์เฉพาะบุคคล พร้อมให้บริการด้วยความเป็นกันเอง ช่วยให้ทุกคนที่อยู่หน้ากล้องรู้สึกผ่อนคลายและแสดงตัวตนออกมาได้อย่างมั่นใจที่สุด
+            </p>
+          </div>
+          <div class="p-8 rounded-2xl bg-brand-surface border border-brand-border">
+            <h3 class="text-xl font-bold text-brand-blue mb-4">มาตรฐานการทำงาน (Our Quality)</h3>
+            <p class="text-brand-muted text-sm leading-relaxed">
+              ใช้เครื่องมือระดับอุตสาหกรรม การจัดการไฟล์สี Color Calibrated ที่แม่นยำ พร้อมส่งมอบไฟล์ภาพความละเอียดสูงที่พร้อมสำหรับการพิมพ์หรือใช้บนแพลตฟอร์มออนไลน์ได้ทันที
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE: GALLERY (พร้อมระบบ Lightbox คลิกดูภาพขยาย) -->
+    <section id="page-gallery" class="page-section hidden py-16 sm:py-24">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <span class="text-brand-blue text-xs uppercase tracking-widest font-semibold">Our Portfolio</span>
+          <h2 class="text-3xl sm:text-4xl font-bold text-brand-white mt-2">ผลงานภาพถ่าย Hamtaroo Studio</h2>
+          <p class="text-brand-muted mt-2 text-sm">คลิกที่รูปภาพเพื่อเปิดดูขนาดใหญ่ (Lightbox Preview)</p>
+        </div>
+
+        <!-- Image Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          
+          <!-- Image 1 -->
+          <div class="group relative overflow-hidden rounded-xl border border-brand-border cursor-pointer bg-brand-surface"
+               onclick="openLightbox('https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1200&auto=format&fit=crop', 'Portrait Photography - Dramatic Lighting')">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop" 
+                 alt="Portrait Work" 
+                 class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
+              <span class="text-brand-blue text-xs font-semibold tracking-wider uppercase">Portrait</span>
+              <p class="text-brand-white font-medium text-sm">Dramatic Lighting Set</p>
+            </div>
+          </div>
+
+          <!-- Image 2 -->
+          <div class="group relative overflow-hidden rounded-xl border border-brand-border cursor-pointer bg-brand-surface"
+               onclick="openLightbox('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1200&auto=format&fit=crop', 'Editorial Profile - Natural Tone')">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop" 
+                 alt="Profile Work" 
+                 class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
+              <span class="text-brand-blue text-xs font-semibold tracking-wider uppercase">Profile</span>
+              <p class="text-brand-white font-medium text-sm">Editorial Profile</p>
+            </div>
+          </div>
+
+          <!-- Image 3 -->
+          <div class="group relative overflow-hidden rounded-xl border border-brand-border cursor-pointer bg-brand-surface"
+               onclick="openLightbox('https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=1200&auto=format&fit=crop', 'Fashion Editorial - Studio Session')">
+            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=800&auto=format&fit=crop" 
+                 alt="Fashion Work" 
+                 class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
+              <span class="text-brand-blue text-xs font-semibold tracking-wider uppercase">Fashion</span>
+              <p class="text-brand-white font-medium text-sm">Modern Lookbook</p>
+            </div>
+          </div>
+
+          <!-- Image 4 -->
+          <div class="group relative overflow-hidden rounded-xl border border-brand-border cursor-pointer bg-brand-surface"
+               onclick="openLightbox('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1200&auto=format&fit=crop', 'Corporate Portrait - Executive Headshot')">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=800&auto=format&fit=crop" 
+                 alt="Headshot" 
+                 class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
+              <span class="text-brand-blue text-xs font-semibold tracking-wider uppercase">Commercial</span>
+              <p class="text-brand-white font-medium text-sm">Executive Headshot</p>
+            </div>
+          </div>
+
+          <!-- Image 5 -->
+          <div class="group relative overflow-hidden rounded-xl border border-brand-border cursor-pointer bg-brand-surface"
+               onclick="openLightbox('https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1200&auto=format&fit=crop', 'Creative Mood - Neon & Shadow')">
+            <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=800&auto=format&fit=crop" 
+                 alt="Creative Work" 
+                 class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
+              <span class="text-brand-blue text-xs font-semibold tracking-wider uppercase">Creative</span>
+              <p class="text-brand-white font-medium text-sm">Blue & Shadow Mood</p>
+            </div>
+          </div>
+
+          <!-- Image 6 -->
+          <div class="group relative overflow-hidden rounded-xl border border-brand-border cursor-pointer bg-brand-surface"
+               onclick="openLightbox('https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=1200&auto=format&fit=crop', 'Outdoor Studio - Natural Ambience')">
+            <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=800&auto=format&fit=crop" 
+                 alt="Outdoor Portrait" 
+                 class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
+              <span class="text-brand-blue text-xs font-semibold tracking-wider uppercase">Portrait</span>
+              <p class="text-brand-white font-medium text-sm">Natural Light Session</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE: CONTACT -->
+    <section id="page-contact" class="page-section hidden py-16 sm:py-24">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-16">
+          <span class="text-brand-blue text-xs uppercase tracking-widest font-semibold">Get in Touch</span>
+          <h2 class="text-3xl sm:text-4xl font-bold text-brand-white mt-2">ติดต่อจองคิวและสอบถามรายละเอียด</h2>
+          <p class="text-brand-muted mt-2 text-sm">พร้อมให้คำปรึกษาเรื่องไอเดียและคิวถ่ายภาพทุกวัน</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <!-- Information Card -->
+          <div class="p-8 sm:p-10 rounded-2xl bg-brand-surface border border-brand-border space-y-8">
+            <div>
+              <h3 class="text-2xl font-bold text-brand-white mb-2">Hamtaroo Studio Bangkok</h3>
+              <p class="text-brand-muted text-sm leading-relaxed">
+                สตูดิโอตั้งอยู่ใจกลางกรุงเทพมหานคร พร้อมที่จอดรถและการเดินทางที่สะดวกสบาย
+              </p>
+            </div>
+
+            <div class="space-y-5 text-sm">
+              <div class="flex items-start gap-4">
+                <span class="text-brand-blue font-bold text-lg">📍</span>
+                <div>
+                  <h4 class="text-brand-white font-semibold">ที่ตั้งสตูดิโอ</h4>
+                  <p class="text-brand-muted mt-0.5">เขตสาทร / ยานนาวา กรุงเทพมหานคร</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4">
+                <span class="text-brand-blue font-bold text-lg">📞</span>
+                <div>
+                  <h4 class="text-brand-white font-semibold">เบอร์โทรศัพท์</h4>
+                  <p class="text-brand-muted mt-0.5">02-XXX-XXXX / 08X-XXX-XXXX</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4">
+                <span class="text-brand-blue font-bold text-lg">✉️</span>
+                <div>
+                  <h4 class="text-brand-white font-semibold">อีเมล</h4>
+                  <p class="text-brand-muted mt-0.5">contact@hamtaroos-studio.com</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4">
+                <span class="text-brand-blue font-bold text-lg">⏰</span>
+                <div>
+                  <h4 class="text-brand-white font-semibold">เวลาทำการ</h4>
+                  <p class="text-brand-muted mt-0.5">เปิดบริการทุกวัน (จองคิวล่วงหน้า) 09:00 - 19:00 น.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Form -->
+          <div class="p-8 sm:p-10 rounded-2xl bg-brand-surface border border-brand-border">
+            <form onsubmit="handleFormSubmit(event)" class="space-y-5">
+              <div>
+                <label class="block text-xs font-medium text-brand-muted mb-2 uppercase tracking-wider">ชื่อ - นามสกุล *</label>
+                <input type="text" required placeholder="กรอกชื่อของคุณ" 
+                       class="w-full px-4 py-3 rounded-xl bg-brand-black border border-brand-border text-brand-white focus:outline-none focus:border-brand-blue transition-colors text-sm">
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-brand-muted mb-2 uppercase tracking-wider">อีเมลติดต่อ *</label>
+                <input type="email" required placeholder="example@email.com" 
+                       class="w-full px-4 py-3 rounded-xl bg-brand-black border border-brand-border text-brand-white focus:outline-none focus:border-brand-blue transition-colors text-sm">
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-brand-muted mb-2 uppercase tracking-wider">ข้อความหรือประเภทงานที่ต้องการสอบถาม *</label>
+                <textarea rows="4" required placeholder="เช่น สอบถามคิวถ่ายภาพ Portrait วันเสาร์..." 
+                          class="w-full px-4 py-3 rounded-xl bg-brand-black border border-brand-border text-brand-white focus:outline-none focus:border-brand-blue transition-colors text-sm resize-none"></textarea>
+              </div>
+
+              <button type="submit" class="w-full py-3.5 rounded-xl bg-brand-blue text-black font-semibold hover:bg-brand-blueHover transition-all text-sm shadow-[0_0_20px_rgba(56,189,248,0.25)]">
+                ส่งข้อความ
+              </button>
+              
+              <div id="form-alert" class="hidden p-3 rounded-lg bg-brand-blue/10 border border-brand-blue/30 text-brand-blue text-xs text-center">
+                ขอบคุณสำหรับข้อความ ทีมงานจะติดต่อกลับภายใน 24 ชั่วโมง
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Lightbox Modal (ขยายรูปภาพ) -->
+  <div id="lightbox-modal" class="fixed inset-0 z-50 hidden bg-black/95 backdrop-blur-md flex items-center justify-center p-4">
+    <!-- Close Button -->
+    <button onclick="closeLightbox()" class="absolute top-6 right-6 text-brand-muted hover:text-brand-white text-3xl font-light p-2 focus:outline-none transition-colors">
+      ✕
+    </button>
+    <!-- Modal Content -->
+    <div class="max-w-4xl max-h-[90vh] flex flex-col items-center">
+      <img id="lightbox-img" src="" alt="Enlarged gallery photo" class="max-h-[80vh] w-auto rounded-xl shadow-2xl object-contain border border-brand-border">
+      <p id="lightbox-caption" class="text-brand-white mt-4 text-center text-sm font-medium tracking-wide"></p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-t border-brand-border bg-brand-black py-8 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-xs text-brand-muted">
+        © 2026 Hamtaroo Studio. All rights reserved.
+      </p>
+      <div class="flex items-center space-x-6 text-xs text-brand-muted">
+        <button onclick="navigateTo('home')" class="hover:text-brand-blue transition-colors">Home</button>
+        <button onclick="navigateTo('about')" class="hover:text-brand-blue transition-colors">About</button>
+        <button onclick="navigateTo('gallery')" class="hover:text-brand-blue transition-colors">Gallery</button>
+        <button onclick="navigateTo('contact')" class="hover:text-brand-blue transition-colors">Contact</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript SPA & Lightbox Controls -->
+  <script>
+    // 1. ระบบ Tab Switching (สลับหน้าโดยไม่รีเฟรช)
+    function navigateTo(pageId) {
+      // ซ่อนทุกหน้า
+      const pages = document.querySelectorAll('.page-section');
+      pages.forEach(p => p.classList.add('hidden'));
+
+      // แสดงหน้าที่เลือก
+      const targetPage = document.getElementById(`page-${pageId}`);
+      if (targetPage) {
+        targetPage.classList.remove('hidden');
+      }
+
+      // อัปเดตสถานะ Active บน Desktop Menu
+      const desktopNavs = document.querySelectorAll('.nav-item');
+      desktopNavs.forEach(nav => nav.classList.remove('active-nav'));
+      const activeDesktop = document.getElementById(`nav-${pageId}`);
+      if (activeDesktop) activeDesktop.classList.add('active-nav');
+
+      // อัปเดตสถานะ Active บน Mobile Menu
+      const mobileNavs = document.querySelectorAll('.m-nav-item');
+      mobileNavs.forEach(nav => nav.classList.remove('active-nav-mobile'));
+      const activeMobile = document.getElementById(`m-nav-${pageId}`);
+      if (activeMobile) activeMobile.classList.add('active-nav-mobile');
+
+      // ปิด Drawer เมนูมือถือหลังเลือก
+      const mobileMenu = document.getElementById('mobile-menu');
+      if (!mobileMenu.classList.contains('hidden')) {
+        mobileMenu.classList.add('hidden');
+      }
+
+      // เลื่อนขึ้นบนสุด
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 2. สลับเปิด/ปิด เมนูมือถือ
+    function toggleMobileMenu() {
+      const mobileMenu = document.getElementById('mobile-menu');
+      mobileMenu.classList.toggle('hidden');
+    }
+
+    // 3. ระบบ Lightbox Modal (เปิด-ปิดรูปขยาย)
+    function openLightbox(imageUrl, captionText) {
+      const modal = document.getElementById('lightbox-modal');
+      const img = document.getElementById('lightbox-img');
+      const caption = document.getElementById('lightbox-caption');
+
+      img.src = imageUrl;
+      caption.textContent = captionText || '';
+      
+      modal.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden'); // ป้องกันการเลื่อนจอด้านหลัง
+    }
+
+    function closeLightbox() {
+      const modal = document.getElementById('lightbox-modal');
+      modal.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    // ปิดเมื่อคลิกพื้นที่ว่างด้านนอกรูป
+    document.getElementById('lightbox-modal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeLightbox();
+      }
+    });
+
+    // ปิดเมื่อกดปุ่ม Esc
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeLightbox();
+      }
+    });
+
+    // 4. Form Submit จำลอง
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const alertBox = document.getElementById('form-alert');
+      alertBox.classList.remove('hidden');
+      e.target.reset();
+      setTimeout(() => {
+        alertBox.classList.add('hidden');
+      }, 5000);
+    }
+  </script>
+</body>
+</html>
